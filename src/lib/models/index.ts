@@ -1,0 +1,6 @@
+export { default as Box } from './box'
+export { default as Coin } from './coin'
+export { default as Dust } from './dust'
+export { default as Player } from './player'
+export { default as Slime } from './slime'
+export { default as Water } from './water'

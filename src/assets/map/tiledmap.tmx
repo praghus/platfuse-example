@@ -1,0 +1,144 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="101">
+ <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
+  <image source="../images/tileset.png" width="256" height="256"/>
+  <tile id="29" type="ladder"/>
+  <tile id="34" type="noCollide"/>
+  <tile id="35" type="noCollide"/>
+  <tile id="36" type="noCollide"/>
+  <tile id="37" type="noCollide"/>
+ </tileset>
+ <tileset firstgid="257" name="coin" tilewidth="8" tileheight="8" tilecount="11" columns="11">
+  <image source="../images/coin.png" width="88" height="8"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="50"/>
+    <frame tileid="1" duration="50"/>
+    <frame tileid="2" duration="50"/>
+    <frame tileid="3" duration="50"/>
+    <frame tileid="4" duration="50"/>
+    <frame tileid="5" duration="50"/>
+    <frame tileid="6" duration="50"/>
+    <frame tileid="7" duration="50"/>
+    <frame tileid="8" duration="50"/>
+    <frame tileid="9" duration="50"/>
+   </animation>
+  </tile>
+ </tileset>
+ <tileset firstgid="268" name="water" tilewidth="16" tileheight="16" tilecount="28" columns="7">
+  <image source="../images/water.png" width="112" height="64"/>
+  <tile id="0">
+   <animation>
+    <frame tileid="0" duration="100"/>
+    <frame tileid="1" duration="100"/>
+    <frame tileid="2" duration="100"/>
+    <frame tileid="3" duration="100"/>
+    <frame tileid="4" duration="100"/>
+    <frame tileid="5" duration="100"/>
+    <frame tileid="6" duration="100"/>
+    <frame tileid="7" duration="100"/>
+    <frame tileid="8" duration="100"/>
+    <frame tileid="9" duration="100"/>
+    <frame tileid="10" duration="100"/>
+    <frame tileid="11" duration="100"/>
+    <frame tileid="12" duration="100"/>
+    <frame tileid="13" duration="100"/>
+   </animation>
+  </tile>
+ </tileset>
+ <layer id="1" name="Background" width="80" height="40" opacity="255">
+  <data encoding="base64" compression="zlib">
+   eJzt1ssJgDAQRdF049KWLCEN2If/Wp0GYkSHmQy5wlm48nFBkiGlNDQmOXzv6+PdCoCdsYENqJsKcgPbIsgPvLdFQD/60c/P3Gm/0v3E+t4Ssd/bdrX3mkWsYhO7OMQpruD9/nbWFLWf5X/61CZqP0v00+/3hvdub1+70U+nofd2DRrnTM/9NDvTDwAAAAAAAAAAaLoBpj4Vtw==
+  </data>
+ </layer>
+ <layer id="2" name="Main" width="80" height="40" opacity="255">
+  <data encoding="base64" compression="zlib">
+   eJztWstuVDEMdRkoA1SU2cPQroEdQsAeCWhZIgFfwAK+gj+oRPldHF2iuq6T2I7vox0sHWk0c6/jnMTxI7MHAHsLwyPEvQmxmdneTbCeuzCtrMDHRZS9efyl6PGOax17afPeVf7WMOzn+516dpW/KNHY8wBxjLjTgf3CuNH8bQ26IoTb8xLxqvKcN15xP1kRXfS323CVa8mOhyCv0fafjtK6aYXqqOnR+kO036wKukrfczukdUzrsGXP8HWTfClx85xhLeim8p3Zc934q/lv3tul2NDixiJL4G/Lvq/NR8PfuqEjUkr28HNQy1/yj1sKPEY8QRzAMOfsV73rOHf8sDz3DIaz4kWnDXnOJd+la/JUsEPSZZUTxCniE1yNHTUcNuzJMmbe1eLPYkfE/qO5labm3lTs4Tp3mb/SmNTudw2dvfzVfCP5whEMfnrgsEPSvd/4veaTWv408aqWt1pQsk1bi9T4y3kJ7Y0dweWY1dOrishzxkbEOeKtDceUOflL8Tf7M+fvs/A8zY+nygMleY14g3gLl/0uqlct9aDnjGPR8h7xAfERbHPUirSnp+Sv1aug8hNxhjhH/FC+8wXxFfENxuGP16EJqSbxxl+raPKlLL/gYv6/YeAx4QwueD1nnyn+QDx/HpH4k85ArS7tXOj8xzrjWzVvaU9ZpLX/ck3JIeV+hxU9SbTntjYezHVXR8Xrv9aawqJLq2OM2Gep1S31Ohfa7+7NiXkPV6tD4q+33vTmldY6qOWrHpu9PpBtl+4bous5LTRnkHaf5Pn03HnweHAszDW9T/vllrzZm4OX/vcReabkvCr3d7l49p+Uq+X7Gmu/3JI3SO9K+23KOk3iz5KLU/GcfxH8LS0H8N65XBf+tPe5mve9OYAkWv74+NLdm0ai8r+I/HFK/vj4KYbz+K3ZE1H80fxH06OW8oRaDsXnor2XrN1X1uKP5g6G8hBVf3BdUX3Oqc5nenekyYnzPvDkzzedvwi7e+f6n79l8NfyD+//wrjcVP6m2p9L4G8O9N4D9/QR/gJa3S+E
+  </data>
+ </layer>
+ <layer id="4" name="Shadows" width="80" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztWluOwzAIzCXa1W7uf89uP6xFCOzBxkA2Hak/TcJjzMtOjqMmfrINuDiuxt/5+/t2+K3IocjkD/WBwsveanKidFfz+078PY6/mH4uyKHYzd+Xs+5q9ZraQ319bJA/utbjugfpuVlZVjlvH1pc92J6tl9JMk/l2mxsSc8hshCOR2uM2uyZN5osRIe0jnwdTvaflktITHA5s2tehb/RPZy7Bto7PHuIZI8U1951m+vQ/EbtQGrQDlB7ejb0eJbWFskLmlcZeeABq907ZijJDqqnd182qqx7th3aer0h9RluDzLnRMDLDq/5b6SzzX/RdZdDmwk5MvJX0pnVrzTM5m/zg8PrnKsSRz1o/GnzfpV6UwVaXEnzvlRv+AxVMWY8ckJDdP/17C8oInIiKi+r9CErRnsVS/9diaEr8bdjFluduXq+SGtMMVPHJJ3ovnfnPi9DTnsW4dFLpxcq8WeVUYE/DqQ2IGeuFqB7JQ0ZvV+Dx5krx+4ZoFIcWs/gUcy8N+T9AHne+g3BbO+y+mKFZf+CvjfU+usT1IPotoLzn7FP4z5E5mN27fCo3fwsPnINs/nziJXs+s9jwBITnrbvmCMiZpOV+hHxHtpL5sx7SXQ/5/V9zQp28/ff8eFvDXfydQc+/K3hTvy9ANKRLjY=
+  </data>
+ </layer>
+ <objectgroup id="5" name="Objects">
+  <object id="63" name="Player" type="player" x="144" y="80" width="14" height="28"/>
+  <object id="3" name="Spikes" type="spikes" x="336" y="616" width="32" height="8"/>
+  <object id="4" name="Slime" type="slime" x="224" y="224" width="160" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+    <property name="range" type="int" value="222"/>
+   </properties>
+  </object>
+  <object id="11" name="Spikes" type="spikes" x="192" y="248" width="32" height="8"/>
+  <object id="12" name="Slime" type="slime" x="368" y="512" width="96" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+    <property name="range" type="int" value="222"/>
+   </properties>
+  </object>
+  <object id="13" name="Coin" type="coin" gid="257" x="196" y="204" width="8" height="8"/>
+  <object id="15" name="Coin" type="coin" gid="257" x="220" y="176" width="8" height="8"/>
+  <object id="16" name="Coin" type="coin" gid="257" x="244" y="204" width="8" height="8"/>
+  <object id="17" name="Coin" type="coin" gid="257" x="156" y="212" width="8" height="8"/>
+  <object id="18" name="Coin" type="coin" gid="257" x="224" y="480" width="8" height="8"/>
+  <object id="20" name="Coin" type="coin" gid="257" x="256" y="480" width="8" height="8"/>
+  <object id="21" name="Slime" type="slime" x="112" y="352" width="176" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+    <property name="range" type="int" value="222"/>
+   </properties>
+  </object>
+  <object id="22" name="Coin" type="coin" gid="257" x="320" y="480" width="8" height="8"/>
+  <object id="23" name="Coin" type="coin" gid="257" x="336" y="464" width="8" height="8"/>
+  <object id="24" name="Coin" type="coin" gid="257" x="352" y="448" width="8" height="8"/>
+  <object id="25" name="Coin" type="coin" gid="257" x="368" y="464" width="8" height="8"/>
+  <object id="26" name="Coin" type="coin" gid="257" x="64" y="80" width="8" height="8"/>
+  <object id="27" name="Coin" type="coin" gid="257" x="96" y="80" width="8" height="8"/>
+  <object id="28" name="Coin" type="coin" gid="257" x="128" y="80" width="8" height="8"/>
+  <object id="29" name="Coin" type="coin" gid="257" x="160" y="80" width="8" height="8"/>
+  <object id="31" name="Coin" type="coin" gid="257" x="96" y="320" width="8" height="8"/>
+  <object id="32" name="Coin" type="coin" gid="257" x="68" y="220" width="8" height="8"/>
+  <object id="33" name="Coin" type="coin" gid="257" x="272" y="112" width="8" height="8"/>
+  <object id="34" name="Coin" type="coin" gid="257" x="304" y="112" width="8" height="8"/>
+  <object id="39" name="Coin" type="coin" gid="257" x="368" y="176" width="8" height="8"/>
+  <object id="40" name="Coin" type="coin" gid="257" x="532" y="96" width="8" height="8"/>
+  <object id="41" name="Coin" type="coin" gid="257" x="416" y="176" width="8" height="8"/>
+  <object id="42" name="Coin" type="coin" gid="257" x="528" y="256" width="8" height="8"/>
+  <object id="43" name="Coin" type="coin" gid="257" x="564" y="300" width="8" height="8"/>
+  <object id="44" name="Coin" type="coin" gid="257" x="596" y="300" width="8" height="8"/>
+  <object id="45" name="Coin" type="coin" gid="257" x="628" y="300" width="8" height="8"/>
+  <object id="46" name="Coin" type="coin" gid="257" x="224" y="304" width="8" height="8"/>
+  <object id="47" name="Coin" type="coin" gid="257" x="256" y="304" width="8" height="8"/>
+  <object id="48" name="Coin" type="coin" gid="257" x="288" y="304" width="8" height="8"/>
+  <object id="49" name="Coin" type="coin" gid="257" x="320" y="304" width="8" height="8"/>
+  <object id="64" name="Slime" type="slime" x="240" y="112" width="160" height="16">
+   <properties>
+    <property name="direction" value="right"/>
+    <property name="range" type="int" value="222"/>
+   </properties>
+  </object>
+  <object id="81" type="box" gid="61" x="432" y="95" width="15" height="15"/>
+  <object id="84" type="box" gid="61" x="416" y="95" width="15" height="15"/>
+  <object id="85" type="box" gid="61" x="432" y="111" width="15" height="15"/>
+  <object id="86" type="box" gid="61" x="416" y="111" width="15" height="15"/>
+  <object id="87" type="box" gid="61" x="448" y="111" width="15" height="15"/>
+  <object id="88" type="box" gid="61" x="160" y="111" width="15" height="15"/>
+  <object id="89" type="box" gid="61" x="432" y="79" width="15" height="15"/>
+  <object id="91" type="box" gid="61" x="96" y="544" width="15" height="15"/>
+  <object id="92" type="box" gid="61" x="80" y="544" width="15" height="15"/>
+  <object id="93" type="box" gid="61" x="96" y="560" width="15" height="15"/>
+  <object id="94" type="box" gid="61" x="80" y="560" width="15" height="15"/>
+  <object id="95" type="box" gid="61" x="112" y="560" width="15" height="15"/>
+  <object id="96" type="box" gid="61" x="112" y="544" width="15" height="15"/>
+  <object id="97" type="box" gid="61" x="96" y="528" width="15" height="15"/>
+  <object id="98" type="box" gid="61" x="128" y="560" width="15" height="15"/>
+  <object id="99" type="box" gid="61" x="112" y="528" width="15" height="15"/>
+  <object id="100" type="box" gid="61" x="112" y="512" width="15" height="15"/>
+ </objectgroup>
+ <layer id="7" name="Foreground" width="80" height="40">
+  <data encoding="base64" compression="zlib">
+   eJzt2SEKQCEQBFDtvwsewfjvfziLzbJgWMH3YPqUYcOWAgAAZ1p2gQR/dgEACHrxZo0VyPDi5gCAO301Hna9xgMAAABwyo+TqAnOFAMO
+  </data>
+ </layer>
+</map>
