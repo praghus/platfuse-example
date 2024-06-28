@@ -90,7 +90,7 @@ export default class Darkness extends Layer {
     // }
 
     #generateTilesData() {
-        const scene = this.game.getCurrentScene()
+        const scene = this.scene
         const { camera, tileSize } = scene
         const { resolution } = camera
         // const layer = scene.tileCollision
@@ -268,11 +268,11 @@ export default class Darkness extends Layer {
     }
 
     getEntityRelativePos(entity: Entity) {
-        const scene = this.game.getCurrentScene()
+        const { camera } = this.scene
         const { pos } = entity.getTranslatedPositionRect()
         return new Vector(
-            Math.floor((pos.x + 16 + scene.camera.pos.x) / this.tileWidth),
-            Math.floor((pos.y + 16 + scene.camera.pos.y) / this.tileHeight)
+            Math.floor((pos.x + 8 + camera.pos.x) / this.tileWidth),
+            Math.floor((pos.y + 8 + camera.pos.y) / this.tileHeight)
         )
     }
 
@@ -281,7 +281,7 @@ export default class Darkness extends Layer {
     // }
 
     draw() {
-        const shadows = this.game.getSetting('shadows')
+        const shadows = this.scene.game.getSetting('shadows')
 
         if (!shadows || !this.visible) return
 
@@ -289,12 +289,12 @@ export default class Darkness extends Layer {
 
         this.#generateTilesData()
 
-        const scene = this.game.getCurrentScene()
+        const scene = this.scene
         const player = scene.getObjectByType(ENTITY_TYPES.PLAYER) as Player
         const shadowsData = this.getLineOfSightGrid(this.getEntityRelativePos(player))
 
         if (shadowsData.length) {
-            const { ctx } = this.game
+            const { ctx } = this.scene.game
             const { camera } = scene
             const topLeft = new Vector(
                 Math.floor(-camera.pos.x / this.tileWidth),
@@ -315,7 +315,7 @@ export default class Darkness extends Layer {
                     else clipX = 80
 
                     ctx.drawImage(
-                        this.game.getImage('dither.png'),
+                        this.scene.game.getImage('dither.png'),
                         clipX,
                         (shadows - 1) * 16,
                         this.tileWidth,

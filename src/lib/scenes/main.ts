@@ -27,7 +27,6 @@ export default class MainScene extends Scene {
             this.layers.map(layer => {
                 f2.add(layer, 'visible').name(layer.name || `Layer#${layer.id}`)
             })
-
             f1.add(this, 'gravity').name('Gravity').step(0.01).min(0).max(1)
             f1.add(game.settings, 'shadows', {
                 disabled: 0,

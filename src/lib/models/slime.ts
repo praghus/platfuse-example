@@ -53,19 +53,4 @@ export default class Slime extends Entity {
             }
         }
     }
-
-    bounce() {
-        this.facing = this.facing === DIRECTIONS.RIGHT ? DIRECTIONS.LEFT : DIRECTIONS.RIGHT
-        this.running = false
-        this.force.x *= -1
-    }
-
-    // collide(obj: Entity) {
-    //     switch (obj.type) {
-    //         case ENTITY_TYPES.PLAYER:
-    //             const player = obj as Player
-    //             player.hit(this.damage)
-    //             break
-    //     }
-    // }
 }

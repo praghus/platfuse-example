@@ -38,8 +38,8 @@ export default class Player extends Entity {
 
     c: Vector[] = []
 
-    constructor(obj: Record<string, any>, scene: Scene) {
-        super(obj, scene)
+    constructor(scene: Scene, obj: Record<string, any>) {
+        super(scene, obj)
 
         this.groundTimer = scene.game.timer()
         this.jumpTimer = scene.game.timer()
@@ -257,7 +257,7 @@ export default class Player extends Entity {
         else if (this.pushing) animation = ANIMATIONS.PUSH
         else if (Math.abs(this.force.x) > 0.01 && Math.abs(this.force.x) < 0.12) animation = ANIMATIONS.WALK
         else if (Math.abs(this.force.x) >= 0.12) animation = ANIMATIONS.RUN
-        this.setAnimation(animation, { H: this.facing === LEFT })
+        this.setAnimation(animation, this.facing === LEFT)
 
         this.pushing = false
         // }

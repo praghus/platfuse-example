@@ -1,4 +1,4 @@
-import { Game, vec2 } from 'platfuse'
+import { Color, Game, vec2 } from 'platfuse'
 
 import { COLORS, ENTITY_TYPES, SCENES } from './lib/constants'
 import * as Models from './lib/models'
@@ -10,7 +10,7 @@ import './style.css'
 const game = new Game(
     {
         fixedSize: vec2(1280, 720),
-        backgroundColor: COLORS.BACKGROUND,
+        backgroundColor: new Color(COLORS.BACKGROUND),
         scenes: { [SCENES.MAIN]: MainScene },
         entities: {
             [ENTITY_TYPES.BOX]: Models.Box,
