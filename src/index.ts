@@ -16,10 +16,8 @@ const game = new Game(
             [ENTITY_TYPES.BOX]: Models.Box,
             [ENTITY_TYPES.COIN]: Models.Coin,
             [ENTITY_TYPES.DUST]: Models.Dust,
-            // [ENTITY_TYPES.PARTICLE]: Models.Particle,
             [ENTITY_TYPES.PLAYER]: Models.Player,
             [ENTITY_TYPES.SLIME]: Models.Slime,
-            // [ENTITY_TYPES.SPIKES]: Models.Spikes,
             [ENTITY_TYPES.WATER]: Models.Water
         },
         debug: true,
