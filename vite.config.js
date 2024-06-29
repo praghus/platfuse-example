@@ -33,6 +33,7 @@ export default defineConfig({
     resolve: {
         preserveSymlinks: true,
         alias: {
+            // 'platfuse': fileURLToPath(new URL('../platfuse/dist/platfuse.esm.js', import.meta.url)),
             '@': fileURLToPath(new URL('./src', import.meta.url)),
             buffer: 'rollup-plugin-node-polyfills/polyfills/buffer-es6',
             process: 'rollup-plugin-node-polyfills/polyfills/process-es6',
