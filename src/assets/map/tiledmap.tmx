@@ -7,6 +7,14 @@
   <tile id="35" type="noCollide"/>
   <tile id="36" type="noCollide"/>
   <tile id="37" type="noCollide"/>
+  <tile id="151">
+   <animation>
+    <frame tileid="151" duration="100"/>
+    <frame tileid="152" duration="100"/>
+    <frame tileid="153" duration="100"/>
+    <frame tileid="154" duration="100"/>
+   </animation>
+  </tile>
  </tileset>
  <tileset firstgid="257" name="coin" tilewidth="8" tileheight="8" tilecount="11" columns="11">
   <image source="../images/coin.png" width="88" height="8"/>
@@ -48,17 +56,17 @@
  </tileset>
  <layer id="1" name="Background" width="80" height="40" opacity="255">
   <data encoding="base64" compression="zlib">
-   eJzt1ssJgDAQRdF049KWLCEN2If/Wp0GYkSHmQy5wlm48nFBkiGlNDQmOXzv6+PdCoCdsYENqJsKcgPbIsgPvLdFQD/60c/P3Gm/0v3E+t4Ssd/bdrX3mkWsYhO7OMQpruD9/nbWFLWf5X/61CZqP0v00+/3hvdub1+70U+nofd2DRrnTM/9NDvTDwAAAAAAAAAAaLoBpj4Vtw==
+   eJzt1ssJgDAQRdF049KWLCEN2If/Wh23gr84ZjJ4hbNQBB8XRKsQQlWYYPC81MO6FYB8ugI24FpzIBawzYN4wnqbB/SjH/3stD/tVz+8/hWP/e62258//Sfc7u/FIEYxiVkszvu97azJa7+c7+lZG6/9cqKffr87rHdbS+1GP52G1ts1aHxn/txPszP9AAAAAAAAAACAphVImRaJ
   </data>
  </layer>
  <layer id="2" name="Main" width="80" height="40" opacity="255">
   <data encoding="base64" compression="zlib">
-   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
+   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
   </data>
  </layer>
  <layer id="4" name="Shadows" width="80" height="40">
   <data encoding="base64" compression="zlib">
-   eJztWluOwzAIzCXa1W7uf89uP6xFCOzBxkA2Hak/TcJjzMtOjqMmfrINuDiuxt/5+/t2+K3IocjkD/WBwsveanKidFfz+078PY6/mH4uyKHYzd+Xs+5q9ZraQ319bJA/utbjugfpuVlZVjlvH1pc92J6tl9JMk/l2mxsSc8hshCOR2uM2uyZN5osRIe0jnwdTvaflktITHA5s2tehb/RPZy7Bto7PHuIZI8U1951m+vQ/EbtQGrQDlB7ejb0eJbWFskLmlcZeeABq907ZijJDqqnd182qqx7th3aer0h9RluDzLnRMDLDq/5b6SzzX/RdZdDmwk5MvJX0pnVrzTM5m/zg8PrnKsSRz1o/GnzfpV6UwVaXEnzvlRv+AxVMWY8ckJDdP/17C8oInIiKi+r9CErRnsVS/9diaEr8bdjFluduXq+SGtMMVPHJJ3ovnfnPi9DTnsW4dFLpxcq8WeVUYE/DqQ2IGeuFqB7JQ0ZvV+Dx5krx+4ZoFIcWs/gUcy8N+T9AHne+g3BbO+y+mKFZf+CvjfU+usT1IPotoLzn7FP4z5E5mN27fCo3fwsPnINs/nziJXs+s9jwBITnrbvmCMiZpOV+hHxHtpL5sx7SXQ/5/V9zQp28/ff8eFvDXfydQc+/K3hTvy9ANKRLjY=
+   eJztWlmOgzAM5RLtqMP979nhA9Wy7MTxztAn9aeAlxdvCWxbT/xWG3BxXI2//e/3cvhZ5EBU8if1AcLL3m5ysnR38/tO/D22T0w/DXIgovn7cdbdrV5De6CvjwD5s2sjrkegntPKWpVz+HDG9Simtf2Kkrkz17SxRT0nkSXheLbGUps984aTJdFBrSNehx39x+WSJCawHO2ad+Fvdg/m7gTsHZ49hLKHimvvuo11cH5L7ZDUoAhAe0Y2jHim1laSFzCvKvLAA6t2R8xQlB1Qz+i+anRZ92o7uPU6QPUZbI9kzsmAlx1e899M5zn/ZdddDG4mxKjIX0pnVb/ioM3f0w8Mr3OuThyNwPHHzftd6k0XcHFFzftUvcEzVMeY8cgJDtn917O/SJGRE1l52aUPrWK2V1npv5YYuhJ/EbOYdeaS+MLVHU0do3RK972R+zxvOZxP1LMSHiU6M9Gp/q3K6MAfhqQ2SM5cZ/A8P6zo/Rw8zlwxov3rFIerZ/BSaDjEMcoB8rf6DYG2d0lsscCyf+G45nrRU6nngNVfzH+HfVpmPlp1WZ/3qG34LD5zDav5q5hbvIFjYCUmPG2P6LMZswnmYIWTjPfQXjI17yWl+zmv72ssiObvv+PLnw138jUCX/5suBN/b1iALl0=
   </data>
  </layer>
  <objectgroup id="5" name="Objects">
@@ -118,13 +126,13 @@
     <property name="range" type="int" value="222"/>
    </properties>
   </object>
-  <object id="81" type="box" gid="61" x="432" y="95" width="15" height="15"/>
-  <object id="84" type="box" gid="61" x="416" y="95" width="15" height="15"/>
-  <object id="85" type="box" gid="61" x="432" y="111" width="15" height="15"/>
-  <object id="86" type="box" gid="61" x="416" y="111" width="15" height="15"/>
-  <object id="87" type="box" gid="61" x="448" y="111" width="15" height="15"/>
+  <object id="81" type="box" gid="61" x="432" y="95" width="16" height="16"/>
+  <object id="84" type="box" gid="61" x="416" y="95" width="16" height="16"/>
+  <object id="85" type="box" gid="61" x="432" y="112" width="16" height="16"/>
+  <object id="86" type="box" gid="61" x="416" y="112" width="16" height="16"/>
+  <object id="87" type="box" gid="61" x="448" y="112" width="16" height="16"/>
   <object id="88" type="box" gid="61" x="160" y="111" width="15" height="15"/>
-  <object id="89" type="box" gid="61" x="432" y="79" width="15" height="15"/>
+  <object id="89" type="box" gid="61" x="432" y="78" width="16" height="16"/>
   <object id="91" type="box" gid="61" x="96" y="544" width="15" height="15"/>
   <object id="92" type="box" gid="61" x="80" y="544" width="15" height="15"/>
   <object id="93" type="box" gid="61" x="96" y="560" width="15" height="15"/>

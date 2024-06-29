@@ -232,8 +232,8 @@ export default class Player extends Entity {
         if (!this.groundObject) {
             // air control
             if (Math.sign(moveInput.x) === Math.sign(this.force.x))
-                moveInput.x *= 0.2 // moving with force
-            else moveInput.x *= 0.4 // moving against force (stopping)
+                moveInput.x *= 0.4 // moving with force
+            else moveInput.x *= 0.8 // moving against force (stopping)
             // slight extra gravity when moving down
             if (this.force.y > 0) this.force.y -= gravity * 0.2
         }

@@ -33,10 +33,6 @@ export enum ENTITY_TYPES {
     WATER = 'water'
 }
 
-export enum COLORS {
-    BACKGROUND = '#140c1c'
-}
-
 export enum TILE_TYPES {
     LADDER = 30
 }
