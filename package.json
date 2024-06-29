@@ -27,7 +27,7 @@
         "vite-plugin-plain-text": "^1.4.2"
     },
     "dependencies": {
-        "platfuse": "^1.1.0"
+        "platfuse": "^1.2.0"
     },
     "engines": {
         "npm": ">=10.0.0",
