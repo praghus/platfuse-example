@@ -1,55 +1,41 @@
-import { clamp, Entity, Vector, vec2, Timer, Scene } from 'platfuse'
-import { DIRECTIONS } from '../constants'
+import { clamp, Entity, Vector, vec2, Timer, Scene, Emitter } from 'platfuse'
+import { DIRECTIONS, DEFAULT_PARTICLE_SETTINGS } from '../constants'
 import ANIMATIONS from '../animations/player'
 import MainScene from '../scenes/main'
 
 const { LEFT, RIGHT } = DIRECTIONS
+
+const LADDER = 30
 
 export default class Player extends Entity {
     image = 'monster2.png'
     animation = ANIMATIONS.IDLE
     facing = RIGHT
     energy = [100, 100]
-    points = 0
     renderOrder = 10
     friction = 0.98
     maxSpeed = 0.24
-
-    invincible = false
-    isJumping = false
-    isHurt = false
-    isDead = false
-    onLadder = false
-    climbing = false
+    moveInput = new Vector(0, 0)
+    // flags
     pushing = false
-
+    holdingJump = false
+    wasHoldingJump = false
+    onLadder = false
+    climbingLadder = false
+    climbingWall = false
+    invincible = false
     // timers
     groundTimer: Timer
     jumpTimer: Timer
     pressedJumpTimer: Timer
 
-    // gravityScale = 0
-
-    holdingJump = 0
-    wasHoldingJump = 0
-    climbingWall = 0
-    climbingLadder = 0
-    moveInput = new Vector(0, 0)
-
-    c: Vector[] = []
-
     constructor(scene: Scene, obj: Record<string, any>) {
         super(scene, obj)
-
         this.groundTimer = scene.game.timer()
         this.jumpTimer = scene.game.timer()
         this.pressedJumpTimer = scene.game.timer()
-    }
 
-    init() {
-        const { scene } = this
         const { game } = scene
-        super.init()
         scene.camera.follow(this)
 
         if (game.debug && game.gui) {
@@ -76,33 +62,25 @@ export default class Player extends Entity {
         sprite && this.addSprite(sprite)
     }
 
-    collideWithObject(entity: Entity) {
-        switch (entity.type) {
-            case 'coin':
-                entity.destroy()
-                return 0
-            case 'box':
-                this.pushing = Math.abs(this.moveInput.x) > 0 && this.pos.y + 0.5 >= entity.pos.y
-            // entity.applyForce(this.force.scale(0.1))
-        }
-        return 1
-    }
-
-    collideWithTile(tileId: number) {
-        if (tileId === 30) {
-            return false
-        }
-        return tileId > 0
-    }
-
     handleInput() {
         const { game, camera } = this.scene
         const { input } = game
+
+        if (input.mouseWasPressed(0)) {
+            console.info('Mouse pressed', this.scene.getPointerRelativeGridPos())
+
+            const emitter = new Emitter(this.scene, {
+                ...DEFAULT_PARTICLE_SETTINGS,
+                pos: this.scene.getPointerRelativeGridPos()
+            })
+            this.scene.objects.push(emitter)
+        }
+
         this.moveInput = vec2(
             input.keyIsDown('ArrowRight') - input.keyIsDown('ArrowLeft'),
             input.keyIsDown('ArrowUp') - input.keyIsDown('ArrowDown')
         )
-        this.holdingJump = input.keyIsDown('ArrowUp')
+        this.holdingJump = !!input.keyIsDown('ArrowUp')
 
         if (input.keyIsDown('Space')) {
             camera.shake(500, new Vector(0.02, 0.02))
@@ -117,142 +95,81 @@ export default class Player extends Entity {
 
         this.handleInput()
 
-        this.gravityScale = 1 // reset to default gravity
-        // console.info(this.pos)
+        const moveInput = this.moveInput.clone()
 
-        const moveInput = this.moveInput.copy()
+        this.climbingWall = false
+        this.onLadder = false
 
-        // jump
         if (!this.holdingJump) this.pressedJumpTimer.unset()
         else if (!this.wasHoldingJump || this.climbingWall) this.pressedJumpTimer.set(0.3)
         this.wasHoldingJump = this.holdingJump
 
-        // wall climb
-        this.climbingWall = 0
         if (moveInput.x && !this.force.x && this.force.y > 0) {
             this.force.y *= 0.8
-            this.climbingWall = 1
+            this.climbingWall = true
         }
 
-        // if (moveInput.x && !this.force.x) {
-        //     console.info('push')
-        //     this.pushing = true
-        // }
+        // eslint-disable-next-line space-in-parens
+        for (let y = 2; y--; ) {
+            const testPos = this.pos.add(vec2(0, y + 0.1 * moveInput.y - this.size.y / 2))
+            const collisionData = this.scene.getTileCollisionData(testPos)
+            this.onLadder ||= collisionData === LADDER
+        }
+        if (!this.onLadder) this.climbingLadder = false
+        else if (moveInput.y) this.climbingLadder = true
 
-        // if (this.dodgeTimer.isActive())
-        // {
-        //     // update roll
-        //     this.angle = this.getMirrorSign() * 2 * PI * this.dodgeTimer.getPercent()
-        //     if (this.groundObject)
-        //         this.force.x += this.getMirrorSign() * .1
-        // }
-        // else
-        // {
-        // not rolling
-        // this.angle = 0
-        // if (this.pressedDodge && !this.dodgeRechargeTimer.isActive())
-        // {
-        //     // start dodge
-        //     this.dodgeTimer.set(.4)
-        //     this.dodgeRechargeTimer.set(2)
-        //     this.jumpTimer.unset()
-        //     sound_dodge.play(this.pos)
+        this.gravityScale = this.onLadder ? 0 : 1
 
-        //     if (!this.groundObject && this.getAliveTime() > .2)
-        //         this.force.y += .2
-        // }
-        // if (this.pressingThrow && !this.wasPressingThrow && !this.grendeThrowTimer.isActive())
-        // {
-        //     // throw greande
-        //     const grenade = new Grenade(this.pos)
-        //     grenade.force = this.force.add(vec2(this.getMirrorSign(), rand(.8, .7)).normalize(.2 + rand(.02)))
-        //     grenade.angleVelocity = this.getMirrorSign() * rand(.8, .5)
-        //     sound_jump.play(this.pos)
-        //     this.grendeThrowTimer.set(1)
-        // }
-        // this.wasPressingThrow = this.pressingThrow
-        // }
-
-        // allow grabbing ladder at head or feet
-        // let touchingLadder = 0
-        // for (let y = 2; y--; ) {
-        // const testPos = this.pos.add(vec2(0, y + 0.1 * moveInput.y - this.size.y / 2))
-        // const collisionData = getTileCollisionData(testPos)
-        // touchingLadder ||= collisionData == tileType_ladder
-        // }
-        // if (!touchingLadder) this.climbingLadder = 0
-        // else if (moveInput.y) this.climbingLadder = 1
-
-        // if (this.weapon)
-        //     // update weapon trigger
-        //     this.weapon.triggerIsDown = this.holdingShoot && !this.dodgeTimer.isActive()
-
-        // update ladder
-        // if (this.climbingLadder) {
-        //     this.gravityScale = this.climbingWall = this.groundObject = 0
-        //     this.jumpTimer.unset()
-        //     this.groundTimer.unset()
-        //     this.force = this.force.multiply(vec2(0.85)).add(vec2(0, 0.02 * moveInput.y))
-
-        //     // pull towards ladder
-        //     const delta = (this.pos.x | 0) + 0.5 - this.pos.x
-        //     this.force.x += 0.02 * delta * abs(moveInput.x ? 0 : moveInput.y)
-        //     moveInput.x *= 0.2
-
-        //     // exit ladder if ground is below
-        //     this.climbingLadder = moveInput.y >= 0 || getTileCollisionData(this.pos.subtract(vec2(0, 1))) <= 0
-        // } else {
-        // update jumping and ground check
-        if (this.groundObject || this.climbingWall) {
-            // if (!this.groundTimer.isSet())
-            //     sound_walk.play(this.pos) // land sound
-
+        if (this.climbingLadder) {
+            const delta = (this.pos.x | 0) + 0.5 - this.pos.x
+            this.climbingWall = false
+            this.groundObject = false
+            this.jumpTimer.unset()
+            this.groundTimer.unset()
+            this.force = this.force.multiply(vec2(0.85)).add(vec2(0, -0.02 * moveInput.y))
+            this.force.x += 0.22 * delta * Math.abs(moveInput.x ? 0 : moveInput.y)
+            moveInput.x *= 0.2
+            this.climbingLadder =
+                moveInput.y !== 0 || this.scene.getTileCollisionData(this.pos.subtract(vec2(0, 1))) <= 0
+        } else if (this.groundObject || this.climbingWall) {
             this.groundTimer.set(0.1)
         }
 
-        if (this.groundTimer.isActive() /*&& !this.dodgeTimer.isActive()*/) {
-            // is on ground
+        if (this.groundTimer.isActive()) {
             if (this.pressedJumpTimer.isActive() && !this.jumpTimer.isActive()) {
-                // start jump
                 if (this.climbingWall) this.force.y = -0.25
                 else {
                     this.force.y = -0.15
                     this.jumpTimer.set(0.5)
                 }
-                // sound_jump.play(this.pos)
             }
         }
 
         if (this.jumpTimer.isActive() && !this.climbingWall) {
-            // update variable height jump
             this.groundTimer.unset()
             if (this.holdingJump && this.force.y < 0 && this.jumpTimer.isActive()) this.force.y -= 0.17
         }
 
         if (!this.groundObject) {
-            // air control
-            if (Math.sign(moveInput.x) === Math.sign(this.force.x))
-                moveInput.x *= 0.4 // moving with force
-            else moveInput.x *= 0.8 // moving against force (stopping)
-            // slight extra gravity when moving down
+            // moving in same direction
+            if (Math.sign(moveInput.x) === Math.sign(this.force.x)) moveInput.x *= 0.4
+            // moving against force
+            else moveInput.x *= 0.8
+            // add gravity when falling down
             if (this.force.y > 0) this.force.y -= gravity * 0.2
         }
         // }
 
-        // apply movement acceleration and clamp
-
         this.force.x = clamp(this.force.x + moveInput.x * 0.022, -this.maxSpeed, this.maxSpeed)
-
-        // track last pos for ladder collision code
-        this.lastPos = this.pos.copy()
+        this.lastPos = this.pos.clone()
 
         super.update()
 
         let animation = ANIMATIONS.IDLE
         // if (this.isDead) animation = ANIMATIONS.DEAD
         // else if (this.isHurt) animation = ANIMATIONS.HURT
-        // else if (this.climbing) animation = this.force.y === 0 ? ANIMATIONS.ON_LADDER : ANIMATIONS.CLIMB
-        if (this.jumpTimer.isActive() && !this.groundObject)
+        if (this.climbingLadder) animation = !moveInput.y ? ANIMATIONS.ON_LADDER : ANIMATIONS.CLIMB
+        else if (this.jumpTimer.isActive() && !this.groundObject)
             animation = this.force.y <= 0 ? ANIMATIONS.JUMP : ANIMATIONS.FALL
         else if (this.pushing) animation = ANIMATIONS.PUSH
         else if (Math.abs(this.force.x) > 0.01 && Math.abs(this.force.x) < 0.12) animation = ANIMATIONS.WALK
@@ -260,10 +177,24 @@ export default class Player extends Entity {
         this.setAnimation(animation, this.facing === LEFT)
 
         this.pushing = false
-        // }
     }
 
-    alignWithGrid() {
-        // this.pos.x = this.posOnGrid.x * 16 + 8 - 16
+    collideWithObject(entity: Entity) {
+        switch (entity.type) {
+            case 'coin':
+                entity.destroy()
+                return false
+            case 'box':
+                this.pushing = Math.abs(this.moveInput.x) > 0 && this.pos.y + 0.5 >= entity.pos.y
+            // entity.applyForce(this.force.scale(0.1))
+        }
+        return true
+    }
+
+    collideWithTile(tileId: number) {
+        if (tileId === LADDER) {
+            return false
+        }
+        return tileId > 0
     }
 }

@@ -1,4 +1,4 @@
-import { Entity, Layer, Vector, vec2 } from 'platfuse'
+import { Color, Entity, Layer, Vector, vec2 } from 'platfuse'
 import { ENTITY_TYPES, LAYERS, TILE_TYPES } from '../constants'
 import { Player } from '../models'
 // const g_shadows = {}
@@ -11,114 +11,102 @@ export default class Darkness extends Layer {
     center = new Vector(0, 0)
     rows = 0
     cols = 0
-    range = 8
-    tileWidth = 16
-    tileHeight = 16
+    range = 12
+    generated = false
     tilesData: number[][] = []
-    // shadowCastingLayer = LAYERS.MAIN
+    shadowCastingLayer = LAYERS.MAIN
+    // g_shadows: Record<string, { x: number; y: number; alpha: number }> = {}
 
-    // drawRect(pos: Vector, size: Vector, color: string, alpha: number) {
-    //     const { ctx, draw } = this.game
-
-    //     ctx.fillStyle = '#fff'
-    //     // ctx.clearRect(Math.round(pos.x), Math.round(pos.y), Math.round(size.x * 16), Math.round(size.y * 16))
-    //     // ctx.globalAlpha = alpha
-    //     ctx.fillRect(Math.round(pos.x - 16), Math.round(pos.y), Math.round(size.x * 16), Math.round(size.y * 16))
-    //     draw.fillText(`${alpha.toFixed(1)}`, Math.round(pos.x - 16), Math.round(pos.y), '#222')
+    // drawRect(pos: Vector, size: Vector, alpha: number) {
+    //     const { ctx, draw, backgroundColor } = this.scene.game
+    //     // ctx.save()
+    //     ctx.fillStyle = backgroundColor.toString()
+    //     // ctx.fillStyle = color
+    //     // ctx.clearRect(Math.round(pos.x), Math.round(pos.y), Math.round(size.x), Math.round(size.y))
+    //     // ctx.globalAlpha = 0.8 //alpha
+    //     ctx.fillRect(Math.round(pos.x), Math.round(pos.y), Math.round(size.x), Math.round(size.y))
+    //     draw.text(`${alpha.toFixed(2)}`, Math.round(pos.x), Math.round(pos.y), new Color())
+    //     // ctx.restore()
     // }
 
     // renderFOW() {
-    //     const scene = this.game.getCurrentScene()
+    //     const scene = this.scene
     //     const player = scene.getObjectByType(ENTITY_TYPES.PLAYER) as Player
 
     //     const { camera, tileSize } = scene
-    //     const { resolution } = camera
+    //     const { scale } = camera
     //     // const theMap = scene.tileCollision //mapData[g_levelDef.map]
 
     //     const pos = vec2(0)
+    //     const shadowSize = vec2(1 * tileSize.x * scale)
 
-    //     for (let x = 0; x < 21; x++) {
-    //         for (let y = 0; y < 15; y++) {
+    //     for (let x = 0; x < scene.size.x; x++) {
+    //         for (let y = 0; y < scene.size.y; y++) {
     //             const cx = x //- 0.5
     //             const cy = y //- 0.5
-    //             // check if this tile is onscreen
-    //             // if (
-    //             // 	abs(cx - cameraPos.x) - 1 > overlayCanvas.width / (cameraScale * 2) ||
-    //             // 	abs(cy - cameraPos.y) - 1 > overlayCanvas.height / (cameraScale * 2)
-    //             // ) {
-    //             // 	continue;
-    //             // }
 
-    //             let dVec = vec2(player.pos.x - cx, player.pos.y - cy)
-    //             dVec = dVec.clampLength(Math.min(1.5, dVec.length()))
+    //             let dVec = player.getTranslatedBoundingRect().pos
+    //             dVec = dVec.clampLength(Math.min(0.5, dVec.length()))
     //             pos.x = cx + dVec.x
     //             pos.y = cy + dVec.y
     //             const pos2 = scene.tileCollisionRaycast(player.pos, pos)
     //             // if collision and the collision is not this tile
-    //             if (pos2 && !(pos2.x == cx && pos2.y == cy)) {
-    //                 const shadow = g_shadows[x + '_' + y] || {
+    //             if (pos2 && !(pos2.x === cx && pos2.y === cy)) {
+    //                 this.g_shadows[x + '_' + y] = this.g_shadows[x + '_' + y] || {
     //                     x: cx,
     //                     y: cy,
-    //                     alpha: pos2.x
+    //                     alpha: player.pos.distance(pos2)
     //                 }
-    //                 // shadow.alpha = Math.min(1, shadow.alpha + 0.1)
-
-    //                 g_shadows[x + '_' + y] = shadow
-    //                 //drawRect(pos, vec2(0.1), new Color(1, 0, 0));
-    //             } else {
-    //                 //drawRect(pos, vec2(0.1), new Color(0, 1, 0));
     //             }
     //         }
 
-    //         const shadowSize = vec2(1)
-    //         const color = '#ff0000'
-    //         for (const key in g_shadows) {
-    //             const shadow = g_shadows[key]
-    //             // fade
-    //             // shadow.alpha -= (0.01 * 60) / 60
-    //             // console.info(shadow.alpha)
+    //         for (const key in this.g_shadows) {
+    //             const shadow = this.g_shadows[key]
     //             if (shadow.alpha <= 0) {
-    //                 delete g_shadows[key]
+    //                 delete this.g_shadows[key]
     //             } else {
-    //                 pos.x = shadow.x * 16
-    //                 pos.y = shadow.y * 16
-    //                 this.drawRect(pos.add(camera.pos), shadowSize, color, shadow.alpha)
+    //                 pos.x = shadow.x * tileSize.y * scale
+    //                 pos.y = shadow.y * tileSize.y * scale
+    //                 this.drawRect(pos.add(camera.pos), shadowSize, shadow.alpha)
     //             }
     //         }
-    //         // console.info(g_shadows)
+    //         this.g_shadows = {}
     //     }
     // }
 
     #generateTilesData() {
-        const scene = this.scene
-        const { camera, tileSize } = scene
-        const { resolution } = camera
-        // const layer = scene.tileCollision
-
-        let y = Math.floor(camera.pos.y % tileSize.y)
-        let _y = Math.floor(-camera.pos.y / tileSize.y)
+        const { camera, tileSize } = this.scene
+        const { scale } = camera
 
         const tiles = []
-
-        while (y <= resolution.y + 1) {
+        const start = this.scene
+            .getGridPos(vec2(Math.min(camera.pos.x, 0), Math.min(camera.pos.y, 0)))
+            .divide(scale)
+            .floor()
+        const clip = vec2(
+            Math.min(camera.size.x / scale / tileSize.x, this.scene.size.x) + 1,
+            Math.min(camera.size.y / scale / tileSize.y, this.scene.size.y) + 1
+        )
+        for (let y = -start.y; y < -start.y + clip.y; y++) {
             const c = []
-            let x = Math.floor(camera.pos.x % tileSize.x)
-            let _x = Math.floor(-camera.pos.x / tileSize.x)
-            while (x <= resolution.x + 1) {
-                const tileId = scene.getTileCollisionData(vec2(_x, _y))
-
+            for (let x = -start.x; x < -start.x + clip.x; x++) {
+                const tileId = this.scene.getTileCollisionData(vec2(x, y))
                 c.push(tileId && ![TILE_TYPES.LADDER].includes(tileId) ? 1 : 0)
-
-                x += tileSize.x
-                _x++
             }
             tiles.push(c)
-            y += tileSize.y
-            _y++
         }
+
         this.tilesData = tiles
         this.rows = tiles.length
         this.cols = tiles[0].length
+
+        if (!this.generated) {
+            console.info(start, clip, this.tilesData.toString())
+            this.generated = true
+            setTimeout(() => {
+                this.generated = false
+            }, 500)
+        }
     }
 
     #getRaytraceCollidingTilesVertically(y: number, dy: number, m: number, q: number): Array<Vector> {
@@ -129,7 +117,7 @@ export default class Darkness extends Layer {
         if (dy < 0) losTile.y--
 
         losTiles.push(losTile)
-        if (losPoint.x / this.tileWidth === Math.floor(losPoint.x / this.tileWidth)) {
+        if (losPoint.x / this.scene.tileSize.x === Math.floor(losPoint.x / this.scene.tileSize.x)) {
             losTiles.push(new Vector(losTile.x - 1, losTile.y))
         }
         return losTiles
@@ -143,14 +131,14 @@ export default class Darkness extends Layer {
         if (dx < 0) losTile.x--
 
         losTiles.push(losTile)
-        if (losPoint.y / this.tileHeight === Math.floor(losPoint.y / this.tileHeight)) {
+        if (losPoint.y / this.scene.tileSize.y === Math.floor(losPoint.y / this.scene.tileSize.y)) {
             losTiles.push(new Vector(losTile.x, losTile.y - 1))
         }
         return losTiles
     }
 
     #getLOSDistanceFactor(point: Vector, dstPoint: Vector, range: number): number {
-        const distance = this.#getPointsDistance(point, dstPoint) / this.tileWidth
+        const distance = this.#getPointsDistance(point, dstPoint) / this.scene.tileSize.x
         return distance - range <= 0 ? -(distance - range) : 0
     }
 
@@ -166,7 +154,7 @@ export default class Darkness extends Layer {
         const vy = (dstPoint.y - point.y) / distance
         const pvx = vy
         const pvy = -vx
-        const vlength = this.tileWidth / 4
+        const vlength = this.scene.tileSize.x / 4
 
         return [
             dstPoint,
@@ -195,31 +183,32 @@ export default class Darkness extends Layer {
             if (dx > 0) for (let c = tile.x + 1; c < dstTile.x; c++) losTiles.push(new Vector(c, tile.y))
             else for (let c = tile.x - 1; c > dstTile.x; c--) losTiles.push(new Vector(c, tile.y))
         } else {
-            const nextRowStart = Math.ceil(point.y / this.tileHeight) * this.tileHeight
-            const currRowStart = Math.floor(point.y / this.tileHeight) * this.tileHeight
-            const nextColStart = Math.ceil(point.x / this.tileWidth) * this.tileWidth
-            const currColStart = Math.floor(point.x / this.tileWidth) * this.tileWidth
+            const nextRowStart = Math.ceil(point.y / this.scene.tileSize.y) * this.scene.tileSize.y
+            const currRowStart = Math.floor(point.y / this.scene.tileSize.y) * this.scene.tileSize.y
+            const nextColStart = Math.ceil(point.x / this.scene.tileSize.x) * this.scene.tileSize.x
+            const currColStart = Math.floor(point.x / this.scene.tileSize.x) * this.scene.tileSize.x
 
             const m = dy / dx
             const q = (dstPoint.x * point.y - point.x * dstPoint.y) / dx
 
             if (dy > 0)
-                for (let y = nextRowStart; y < dstPoint.y; y += this.tileHeight)
+                for (let y = nextRowStart; y < dstPoint.y; y += this.scene.tileSize.y)
                     losTiles = losTiles.concat(this.#getRaytraceCollidingTilesVertically(y, dy, m, q))
             else
-                for (let y = currRowStart; y > dstPoint.y; y -= this.tileHeight)
+                for (let y = currRowStart; y > dstPoint.y; y -= this.scene.tileSize.y)
                     losTiles = losTiles.concat(this.#getRaytraceCollidingTilesVertically(y, dy, m, q))
 
             if (dx > 0)
-                for (let x = nextColStart; x < dstPoint.x; x += this.tileWidth)
+                for (let x = nextColStart; x < dstPoint.x; x += this.scene.tileSize.x)
                     losTiles = losTiles.concat(this.#getRaytraceCollidingTilesHorizontally(x, dx, m, q))
             else
-                for (let x = currColStart; x > dstPoint.x; x -= this.tileWidth)
+                for (let x = currColStart; x > dstPoint.x; x -= this.scene.tileSize.x)
                     losTiles = losTiles.concat(this.#getRaytraceCollidingTilesHorizontally(x, dx, m, q))
         }
 
         for (let p = 0; p < losTiles.length; p++) {
             const losTile = losTiles[p]
+            if (losTile.x < 0 || losTile.x >= this.cols || losTile.y < 0 || losTile.y >= this.rows) return false
             if (this.tilesData[losTile.y][losTile.x] === 1) return false
         }
         return true
@@ -230,11 +219,11 @@ export default class Darkness extends Layer {
     }
 
     getTileByPoint(point: Vector): Vector {
-        return new Vector(Math.floor(point.x / this.tileWidth), Math.floor(point.y / this.tileHeight))
+        return new Vector(Math.floor(point.x / this.scene.tileSize.x), Math.floor(point.y / this.scene.tileSize.y))
     }
 
     getPointByTile(tile: Vector): Vector {
-        return new Vector((tile.x + 0.5) * this.tileWidth, (tile.y + 0.5) * this.tileHeight)
+        return new Vector((tile.x + 0.5) * this.scene.tileSize.x, (tile.y + 0.5) * this.scene.tileSize.y)
     }
 
     getLineOfSightGrid(tile: Vector): (number | null)[][] {
@@ -247,6 +236,7 @@ export default class Darkness extends Layer {
 
         for (let r = tile.y - this.range; r <= tile.y + this.range; r++) {
             for (let c = tile.x - this.range; c <= tile.x + this.range; c++) {
+                if (c < 0 || c >= this.cols || r < 0 || r >= this.rows) continue
                 const dstTile = new Vector(c, r)
                 if (dstTile.x === tile.x && (dstTile.y === tile.y || dstTile.y === tile.y + 1)) {
                     lineOfSightGrid[dstTile.y][dstTile.x] = this.range
@@ -267,14 +257,15 @@ export default class Darkness extends Layer {
         return lineOfSightGrid
     }
 
-    getEntityRelativePos(entity: Entity) {
-        const { camera } = this.scene
-        const { pos } = entity.getTranslatedPositionRect()
-        return new Vector(
-            Math.floor((pos.x + 8 + camera.pos.x) / this.tileWidth),
-            Math.floor((pos.y + 8 + camera.pos.y) / this.tileHeight)
-        )
-    }
+    // getEntityRelativePos(entity: Entity) {
+    //     const { camera } = this.scene
+    //     const { pos } = entity.getTranslatedBoundingRect()
+
+    //     return new Vector(
+    //         Math.floor((pos.x + 8 + camera.pos.x) / this.scene.tileSize.x),
+    //         Math.floor((pos.y + 8 + camera.pos.y) / this.scene.tileSize.y)
+    //     )
+    // }
 
     // update() {
     //     this.#generateTilesData()
@@ -287,24 +278,35 @@ export default class Darkness extends Layer {
 
         // this.renderFOW()
 
-        this.#generateTilesData()
+        /**/
 
+        this.#generateTilesData()
         const scene = this.scene
-        const player = scene.getObjectByType(ENTITY_TYPES.PLAYER) as Player
-        const shadowsData = this.getLineOfSightGrid(this.getEntityRelativePos(player))
+        const { camera } = scene
+        const { ctx } = scene.game
+        // const player = scene.getObjectByType(ENTITY_TYPES.PLAYER) as Player
+        const shadowsData = this.getLineOfSightGrid(this.scene.getPointerRelativeGridPos().floor())
+        //this.getEntityRelativePos(player))
 
         if (shadowsData.length) {
-            const { ctx } = this.scene.game
-            const { camera } = scene
-            const topLeft = new Vector(
-                Math.floor(-camera.pos.x / this.tileWidth),
-                Math.floor(-camera.pos.y / this.tileHeight)
-            )
+            // const topLeft = new Vector(
+            //     Math.floor(-camera.pos.x / this.scene.tileSize.x),
+            //     Math.floor(-camera.pos.y / this.scene.tileSize.y)
+            // )
+
+            const topLeft = camera.pos.clone().invert().divide(this.scene.tileSize).floor()
+
             for (let y = 0; y < this.rows; y++) {
                 for (let x = 0; x < this.cols; x++) {
                     const data = shadowsData[y][x]
-                    const posX = (topLeft.x + x) * this.tileWidth + Math.floor(camera.pos.x)
-                    const posY = (topLeft.y + y) * this.tileHeight + Math.floor(camera.pos.y)
+                    const pos = vec2(x, y)
+                        .add(topLeft)
+                        .multiply(this.scene.tileSize)
+                        .scale(camera.scale)
+                        .subtract(vec2(camera.scale))
+                        .add(camera.pos)
+                    // const posX = (topLeft.x + x) * this.scene.tileSize.x + camera.pos.x
+                    // const posY = (topLeft.y + y) * this.scene.tileSize.y + camera.pos.y
 
                     let clipX
                     if (!data) clipX = 0
@@ -318,12 +320,12 @@ export default class Darkness extends Layer {
                         this.scene.game.getImage('dither.png'),
                         clipX,
                         (shadows - 1) * 16,
-                        this.tileWidth,
-                        this.tileHeight,
-                        posX,
-                        posY,
-                        this.tileWidth,
-                        this.tileHeight
+                        16,
+                        16,
+                        pos.x,
+                        pos.y,
+                        this.scene.tileSize.x * camera.scale,
+                        this.scene.tileSize.y * camera.scale
                     )
                     // if (debug) {
                     //     draw.fillText(`${data?.toFixed(2) || '-'}`, posX + 2, posY + 10, '#222')
@@ -331,5 +333,6 @@ export default class Darkness extends Layer {
                 }
             }
         }
+        /**/
     }
 }

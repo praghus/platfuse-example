@@ -1,4 +1,4 @@
-import { Entity, vec2 } from 'platfuse'
+import { Entity, Scene, vec2 } from 'platfuse'
 
 import ANIMATIONS from '../animations/slime'
 import { DIRECTIONS } from '../../lib/constants'
@@ -12,9 +12,9 @@ export default class Slime extends Entity {
     damage = 20
     running = false
 
-    init() {
-        super.init()
+    constructor(scene: Scene, obj: Record<string, any>) {
+        super(scene, obj)
         this.distance = this.size.y
-        this.size = vec2(1)
+        this.size = vec2(0.8, 0.6)
     }
 }
