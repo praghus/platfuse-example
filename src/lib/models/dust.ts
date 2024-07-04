@@ -1,18 +1,22 @@
-import { Entity } from 'platfuse'
-import { DIRECTIONS, ENTITY_TYPES, LAYERS } from '../constants'
-// import ANIMATIONS from '../animations/dust'
+import { Entity, vec2 } from 'platfuse'
+import { ENTITY_TYPES } from '../constants'
+import ANIMATION from '../animations/dust'
 
 export default class Dust extends Entity {
     image = 'dust.png'
-    layerId = LAYERS.OBJECTS
     type = ENTITY_TYPES.DUST
-    direction = DIRECTIONS.RIGHT
-    width = 16
-    height = 16
+    animation = ANIMATION.DUST
+    size = vec2(0.5, 0.5)
+    collideObjects = false
+    collideTiles = false
+    solid = false
+    mass = 0
+    ttl = 0.5
 
-    // constructor(obj: Record<string, any>, game: Game) {
-    //     super(obj, game)
-    //     this.direction = obj.direction
+    // constructor(scene: Scene, obj: Record<string, any>) {
+    //     super(scene, obj)
+    //     console.info('Dust created', obj)
+    //     // this.direction = obj.direction
     // }
 
     // update() {

@@ -1,3 +1,4 @@
+// images
 import coin from '../assets/images/coin.png'
 import dither from '../assets/images/dither.png'
 import dust from '../assets/images/dust.png'
@@ -10,6 +11,8 @@ import shine from '../assets/images/shine.png'
 import slime from '../assets/images/slime.png'
 import tileset from '../assets/images/tileset.png'
 import water from '../assets/images/water.png'
+// sounds
+import powerUpSound from '../assets/sounds/powerup.mp3'
 
 export default {
     'coin.png': coin,
@@ -23,5 +26,6 @@ export default {
     'shine.png': shine,
     'slime.png': slime,
     'tileset.png': tileset,
-    'water.png': water
+    'water.png': water,
+    'powerup.mp3': powerUpSound
 }

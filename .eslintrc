@@ -1,24 +1,14 @@
 {
     "parser": "@typescript-eslint/parser",
-    "plugins": [
-        "@typescript-eslint"
-    ],
-    "extends": [
-        "plugin:@typescript-eslint/recommended",
-        "prettier"
-    ],
+    "plugins": ["@typescript-eslint"],
+    "extends": ["plugin:@typescript-eslint/recommended", "prettier"],
     "parserOptions": {
         "ecmaVersion": 2018,
         "sourceType": "module",
         "parser": "@typescript-eslint/parser",
-        // "project": "./tsconfig.json",
         "tsconfigRootDir": "./"
     },
     "rules": {
-        "@typescript-eslint/lines-between-class-members": [2, "always", { 
-            "exceptAfterOverload": true, 
-            "exceptAfterSingleLine": true 
-        }],
         "@typescript-eslint/explicit-function-return-type": "off",
         "@typescript-eslint/explicit-module-boundary-types": "off",
         "@typescript-eslint/no-explicit-any": "off",

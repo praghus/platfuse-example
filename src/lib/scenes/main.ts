@@ -1,32 +1,55 @@
+import { GUI } from 'dat.gui'
+
 import { Scene } from 'platfuse'
 import tiledMap from '../../assets/map/tiledmap.tmx'
 import Player from '../models/player'
-// import Darkness from '../layers/darkness'
+import Darkness from '../layers/darkness'
 
 export default class MainScene extends Scene {
-    player?: Player
-    debug = true
+    debug = false
     gravity = 0.05
+    gui?: GUI
 
     async init() {
         const { game } = this
 
         await super.init(tiledMap)
         this.setScale(4)
-        // this.addLayer(Darkness)
+        this.addLayer(Darkness, 1)
         this.setTileCollisionLayer(2)
-        game.setSettings({ shadows: 1 })
+        // game.setSettings({ shadows: 1 })
 
         console.log('Main Scene initialized', this)
 
-        if (game.debug && game.gui) {
-            game.gui
-                .add(game.settings, 'shadows', {
-                    disabled: 0,
-                    dither: 1,
-                    alpha: 2
-                })
-                .name('Shadows')
-        }
+        this.gui = new GUI()
+
+        const player = this.getObjectByType('player') as Player
+        const f1 = this.gui.addFolder('Scene')
+        const f2 = f1.addFolder('Layers')
+        const f3 = f1.addFolder('Player')
+
+        this.gui.add(game, 'debug').listen()
+        f1.add(this, 'gravity').step(0.01).min(0.01).max(1)
+        f1.add(this.camera, 'scale').step(0.1).min(1).max(10).listen()
+        f1.add(this.camera, 'scrolling').name('camera scroll').listen()
+        this.layers
+            .sort((a, b) => a.renderOrder - b.renderOrder)
+            .map(layer => f2.add(layer, 'visible').name(layer.name || `Layer#${layer.id}`))
+        f3.add(player.pos, 'x').listen()
+        f3.add(player.pos, 'y').listen()
+        f3.add(player, 'gravityScale').listen()
+        f3.add(player, 'image', {
+            'Owlet monster': 'monster1.png',
+            'Pink monster': 'monster2.png',
+            'Dude monster': 'monster3.png'
+        })
+            .name('Sprite')
+            .onChange(image => player?.setImage(image))
+        f3.add(player, 'invincible').name('God mode').listen()
+        // f1.add(game.settings, 'shadows', {
+        //     disabled: 0,
+        //     dither: 1,
+        //     alpha: 2
+        // }).name('Shadows')
     }
 }

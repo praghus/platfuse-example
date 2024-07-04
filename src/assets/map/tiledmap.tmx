@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="8" nextobjectid="111">
+<map version="1.10" tiledversion="1.10.2" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="112">
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
   <image source="../images/tileset.png" width="256" height="256"/>
   <tile id="29" type="ladder"/>
@@ -144,5 +144,11 @@
   <object id="100" type="box" gid="61" x="112" y="512" width="15" height="15"/>
   <object id="101" type="box" x="64" y="80" width="32" height="32"/>
   <object id="106" gid="61" x="172" y="108" width="16" height="16" rotation="27"/>
+  <object id="111" gid="152" x="448" y="192" width="16" height="16" rotation="345.224"/>
  </objectgroup>
+ <layer id="8" name="Foreground" width="80" height="40">
+  <data encoding="base64" compression="zlib">
+   eJztwTEBAAAAwqD1T20ND6AAAAAAAAAAAAAAAAB4NjIAAAE=
+  </data>
+ </layer>
 </map>

@@ -1,6 +1,6 @@
 import { Game, vec2 } from 'platfuse'
 
-import { ENTITY_TYPES, SCENES } from './lib/constants'
+import { ENTITY_TYPES } from './lib/constants'
 import * as Models from './lib/models'
 import assets from './lib/assets'
 import MainScene from './lib/scenes/main'
@@ -10,14 +10,12 @@ import './style.css'
 const game = new Game(
     {
         fixedSize: vec2(1280, 720),
-        scenes: { [SCENES.MAIN]: MainScene },
+        backgroundColor: '#140C1C',
         entities: {
             [ENTITY_TYPES.BOX]: Models.Box,
             [ENTITY_TYPES.COIN]: Models.Coin,
-            [ENTITY_TYPES.DUST]: Models.Dust,
             [ENTITY_TYPES.PLAYER]: Models.Player,
-            [ENTITY_TYPES.SLIME]: Models.Slime,
-            [ENTITY_TYPES.WATER]: Models.Water
+            [ENTITY_TYPES.SLIME]: Models.Slime
         },
         debug: true,
         global: true
@@ -26,8 +24,8 @@ const game = new Game(
 )
 
 async function start() {
-    await game.init()
-    game.playScene(SCENES.MAIN)
+    await game.init(MainScene)
+    game.setAudioVolume(0.1)
 }
 
 start()

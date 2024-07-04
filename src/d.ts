@@ -1,2 +1,2 @@
+declare module 'GUI'
 declare module '*.tmx'
-declare module 'glfx-es6'
