@@ -15,7 +15,11 @@ const game = new Game(
             [ENTITY_TYPES.BOX]: Models.Box,
             [ENTITY_TYPES.COIN]: Models.Coin,
             [ENTITY_TYPES.PLAYER]: Models.Player,
-            [ENTITY_TYPES.SLIME]: Models.Slime
+            [ENTITY_TYPES.SLIME]: Models.Slime,
+            [ENTITY_TYPES.SPIKES]: Models.Spikes
+        },
+        scenes: {
+            MainScene
         },
         debug: true,
         global: true
@@ -24,7 +28,7 @@ const game = new Game(
 )
 
 async function start() {
-    await game.init(MainScene)
+    await game.start('MainScene')
     game.setAudioVolume(0.1)
 }
 

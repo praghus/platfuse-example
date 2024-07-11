@@ -1,5 +1,5 @@
-import { clamp, Entity, vec2, Timer, Scene, Emitter } from 'platfuse'
-import { DIRECTIONS, DEFAULT_PARTICLE_SETTINGS, TILE_TYPES } from '../constants'
+import { clamp, Entity, vec2, Timer, Scene, Emitter, Vector } from 'platfuse'
+import { DIRECTIONS, DEFAULT_PARTICLE_SETTINGS, TILE_TYPES, ENTITY_TYPES } from '../constants'
 import ANIMATIONS from '../animations/player'
 import Dust from './dust'
 
@@ -14,6 +14,7 @@ export default class Player extends Entity {
     damping = 0.88
     friction = 0.9
     maxSpeed = 0.5
+    startPos = vec2()
     // input
     moveInput = vec2()
     // flags
@@ -24,17 +25,25 @@ export default class Player extends Entity {
     climbingLadder = false
     climbingWall = false
     invincible = false
+    isDying = false
+    isHurting = false
     // timers
+    deadTimer: Timer
     groundTimer: Timer
-    jumpTimer: Timer
+    hurtTimer: Timer
     jumpPressedTimer: Timer
+    jumpTimer: Timer
 
     constructor(scene: Scene, obj: Record<string, any>) {
         super(scene, obj)
+        this.deadTimer = scene.game.timer()
         this.groundTimer = scene.game.timer()
-        this.jumpTimer = scene.game.timer()
+        this.hurtTimer = scene.game.timer()
         this.jumpPressedTimer = scene.game.timer()
+        this.jumpTimer = scene.game.timer()
+        this.startPos = this.pos.clone()
         scene.camera.follow(this)
+        scene.camera.setSpeed(0.1)
     }
 
     setImage(image: string) {
@@ -42,8 +51,51 @@ export default class Player extends Entity {
         this.createSprite()
     }
 
+    collideWithObject(entity: Entity) {
+        const { camera } = this.scene
+        switch (entity.type) {
+            case ENTITY_TYPES.COIN:
+                entity.destroy()
+                this.scene.game.playSound('powerup.mp3')
+                return false
+            case ENTITY_TYPES.BOX:
+                this.pushing = Math.abs(this.moveInput.x) > 0 && this.pos.y + 0.5 >= entity.pos.y
+                return true
+            case ENTITY_TYPES.SPIKES:
+                if (!this.isDying) {
+                    this.isDying = true
+                    this.deadTimer.set(1)
+                    camera.shake(0.5, vec2(0.003))
+                }
+                return true
+            case ENTITY_TYPES.SLIME:
+                if (!this.isHurting) {
+                    this.isHurting = true
+                    this.hurtTimer.set(0.3)
+                    this.applyForce(entity.force.scale(0.1))
+                    camera.shake(0.5, vec2(0.003))
+                }
+                return true
+        }
+        return true
+    }
+
+    collideWithTile(tileId: number) {
+        if (tileId === TILE_TYPES.LADDER) {
+            return false
+        }
+        return tileId > 0
+    }
+
+    collideWithTileRaycast(tileId: number, pos: Vector): boolean {
+        if (tileId === TILE_TYPES.LADDER) {
+            return false
+        }
+        return tileId > 0
+    }
+
     handleInput() {
-        const { game, camera } = this.scene
+        const { game } = this.scene
         const { input } = game
 
         this.holdingJump = !!input.keyIsDown('ArrowUp')
@@ -51,9 +103,9 @@ export default class Player extends Entity {
             input.keyIsDown('ArrowRight') - input.keyIsDown('ArrowLeft'),
             input.keyIsDown('ArrowUp') - input.keyIsDown('ArrowDown')
         )
-        if (input.keyIsDown('Space')) {
-            camera.shake(500, vec2(0.02))
-        }
+        // if (input.keyIsDown('Space')) {
+        //     camera.shake(0.5, vec2(0.02))
+        // }
         if (input.mouseWasPressed(0)) {
             console.info('Mouse pressed', this.scene.getPointerRelativeGridPos())
             const emitter = new Emitter(this.scene, {
@@ -61,17 +113,22 @@ export default class Player extends Entity {
                 pos: this.scene.getPointerRelativeGridPos()
             })
             this.scene.addObject(emitter, 5)
-            const dust1 = new Dust(this.scene, { pos: this.pos.clone().add(vec2(-1.2, 0.15)) })
-            const dust2 = new Dust(this.scene, { pos: this.pos.clone().add(vec2(0.85, 0.15)), flipH: true })
-            this.scene.addObject(dust1, 5)
-            this.scene.addObject(dust2, 5)
         }
-
         this.facing = this.moveInput.x === 1 ? RIGHT : this.moveInput.x === -1 ? LEFT : this.facing
     }
 
     update() {
-        if (this.dead) return super.update()
+        if (this.deadTimer.isDone()) {
+            this.deadTimer.unset()
+            this.pos = this.startPos.clone()
+            this.isDying = false
+        }
+        if (this.hurtTimer.isDone()) {
+            this.hurtTimer.unset()
+            this.isHurting = false
+        }
+
+        if (this.isDying) return super.update()
 
         this.handleInput()
 
@@ -90,6 +147,7 @@ export default class Player extends Entity {
             this.climbingWall = true
         }
 
+        // Ladders -----------------------------------------------------------
         // eslint-disable-next-line space-in-parens
         for (let y = 2; y--; ) {
             const testPos = this.pos.add(vec2(0, y + 0.1 * moveInput.y - this.size.y / 2))
@@ -98,8 +156,6 @@ export default class Player extends Entity {
         }
         if (!this.onLadder) this.climbingLadder = false
         else if (moveInput.y) this.climbingLadder = true
-
-        this.gravityScale = this.onLadder ? 0 : 1
 
         if (this.climbingLadder) {
             const delta = (this.pos.x | 0) + 0.5 - this.pos.x
@@ -115,7 +171,8 @@ export default class Player extends Entity {
         } else if (this.onGround || this.climbingWall) {
             this.groundTimer.set(0.1)
         }
-
+        this.gravityScale = this.onLadder ? 0 : 1
+        // Jump --------------------------------------------------------------
         if (this.groundTimer.isActive()) {
             if (this.jumpPressedTimer.isActive() && !this.jumpTimer.isActive()) {
                 if (this.climbingWall) this.force.y = -0.25
@@ -130,16 +187,27 @@ export default class Player extends Entity {
             this.groundTimer.unset()
             if (this.holdingJump && this.force.y < 0 && this.jumpTimer.isActive()) this.force.y -= 0.07
         }
-
+        // Air control -------------------------------------------------------
         if (!this.onGround) {
             // moving in same direction
             if (Math.sign(moveInput.x) === Math.sign(this.force.x)) moveInput.x *= 0.4
             // moving against force
             else moveInput.x *= 0.8
             // add gravity when falling down
-            if (this.force.y > 0) this.force.y -= gravity * 0.2
+            if (this.force.y > 0 && !this.climbingLadder) {
+                this.force.y -= gravity * 0.2
+            }
         }
-        // }
+        // Ground control -----------------------------------------------------
+        // emit dust when changing direction or suddenly stopping
+        if (
+            !this.onLadder &&
+            !this.climbingLadder &&
+            Math.sign(this.moveInput.x) !== Math.sign(this.force.x) &&
+            Math.abs(this.force.x) > 0.1
+        ) {
+            this.dust()
+        }
 
         this.force.x = clamp(this.force.x + moveInput.x * 0.032, -this.maxSpeed, this.maxSpeed)
         this.lastPos = this.pos.clone()
@@ -147,9 +215,9 @@ export default class Player extends Entity {
         super.update()
 
         let animation = ANIMATIONS.IDLE
-        // if (this.isDead) animation = ANIMATIONS.DEAD
-        // else if (this.isHurt) animation = ANIMATIONS.HURT
-        if (this.climbingLadder) animation = !moveInput.y ? ANIMATIONS.ON_LADDER : ANIMATIONS.CLIMB
+        if (this.isDying) animation = ANIMATIONS.DEAD
+        else if (this.isHurting) animation = ANIMATIONS.HURT
+        else if (this.climbingLadder) animation = !moveInput.y ? ANIMATIONS.ON_LADDER : ANIMATIONS.CLIMB
         else if (this.jumpTimer.isActive() && !this.onGround)
             animation = this.force.y <= 0 ? ANIMATIONS.JUMP : ANIMATIONS.FALL
         else if (this.pushing) animation = ANIMATIONS.PUSH
@@ -161,23 +229,9 @@ export default class Player extends Entity {
         this.pushing = false
     }
 
-    collideWithObject(entity: Entity) {
-        switch (entity.type) {
-            case 'coin':
-                entity.destroy()
-                this.scene.game.playSound('powerup.mp3')
-                return false
-            case 'box':
-                this.pushing = Math.abs(this.moveInput.x) > 0 && this.pos.y + 0.5 >= entity.pos.y
-            // entity.applyForce(this.force.scale(0.1))
-        }
-        return true
-    }
-
-    collideWithTile(tileId: number) {
-        if (tileId === TILE_TYPES.LADDER) {
-            return false
-        }
-        return tileId > 0
+    dust(side: (typeof DIRECTIONS)[keyof typeof DIRECTIONS] = this.facing) {
+        const pos = side === LEFT ? vec2(-1.2, 0.15) : vec2(0.85, 0.15)
+        const dust = new Dust(this.scene, { pos: this.pos.add(pos), flipH: side === RIGHT })
+        this.scene.addObject(dust, 5)
     }
 }

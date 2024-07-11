@@ -6,14 +6,14 @@ import Player from '../models/player'
 import Darkness from '../layers/darkness'
 
 export default class MainScene extends Scene {
+    gui?: GUI
     debug = false
     gravity = 0.05
-    gui?: GUI
+    tmxMap = tiledMap
 
-    async init() {
+    init() {
         const { game } = this
 
-        await super.init(tiledMap)
         this.setScale(4)
         this.addLayer(Darkness, 1)
         this.setTileCollisionLayer(2)

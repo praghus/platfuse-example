@@ -1225,14 +1225,14 @@ picomatch@^2.3.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-platfuse@^1.3.0:
-  version "1.3.0"
-  resolved "https://registry.yarnpkg.com/platfuse/-/platfuse-1.3.0.tgz#6d98b80e959e85528d06eaec8cd2ed4a9c105c7d"
-  integrity sha512-Nei8NUNKyNrQTv6VWtzocOKIvf0/2s9T1wQEzUm+hfRU/cIkay1Qe824dfKxgWISaPM4B11mLekN7gM/9dXkxw==
+platfuse@^1.4.2:
+  version "1.4.2"
+  resolved "https://registry.yarnpkg.com/platfuse/-/platfuse-1.4.2.tgz#8ffc51f23146571aa5e79631eab848dd620171c4"
+  integrity sha512-uvZmQMriNIphod3EKLBac8jzmkD8z/O1Puy8/KyUBFSfdGXFCkJFT2eXYOut6yAyA1XeR26Tn4K/Iof6xiyNTg==
   dependencies:
     howler "^2.2.4"
     ora "^8.0.1"
-    tmx-map-parser "^1.3.1"
+    tmx-map-parser "^1.3.2"
 
 postcss@^8.4.38:
   version "8.4.38"
@@ -1466,12 +1466,12 @@ text-table@^0.2.0:
   resolved "https://registry.yarnpkg.com/text-table/-/text-table-0.2.0.tgz#7f5ee823ae805207c00af2df4a84ec3fcfa570b4"
   integrity sha512-N+8UisAXDGk8PFXP4HAzVR9nbfmVJ3zYLAWiTIoqC5v5isinhr+r5uaO8+7r3BMfuNIufIsA7RdpVgacC2cSpw==
 
-tmx-map-parser@^1.3.1:
-  version "1.3.1"
-  resolved "https://registry.yarnpkg.com/tmx-map-parser/-/tmx-map-parser-1.3.1.tgz#ea9fda7e2b7b09ccf23979c92eaad8a038fabcd0"
-  integrity sha512-6zvUo+u+f0X4P2NLW9UmTco9+uYYgzw/RjYmOhFOhN56DOV/rKDVNBKkNqcOhD9ggAg6tCdWI+Ol3Ijb2BIjXg==
+tmx-map-parser@^1.3.2:
+  version "1.3.2"
+  resolved "https://registry.yarnpkg.com/tmx-map-parser/-/tmx-map-parser-1.3.2.tgz#4164cf36d1877681244644f0933edb5eb1b88e10"
+  integrity sha512-XgvVqwtz/+a2ZDMdZHHH+rRtAxMHe2uvEHYOuOuMo28DBcq3aLq+w08ZOupJdCcAarcw6/m5veuzQ3rXqH+VXw==
   dependencies:
-    xml2js "^0.4.23"
+    xml2js "^0.6.2"
     zlib "^1.0.5"
 
 to-regex-range@^5.0.1:
@@ -1559,10 +1559,10 @@ wrappy@1:
   resolved "https://registry.yarnpkg.com/wrappy/-/wrappy-1.0.2.tgz#b5243d8f3ec1aa35f1364605bc0d1036e30ab69f"
   integrity sha512-l4Sp/DRseor9wL6EvV2+TuQn63dMkPjZ/sp9XkghTEbV9KlPS1xUsZ3u7/IQO4wxtcFB4bgpQPRcR3QCvezPcQ==
 
-xml2js@^0.4.23:
-  version "0.4.23"
-  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.4.23.tgz#a0c69516752421eb2ac758ee4d4ccf58843eac66"
-  integrity sha512-ySPiMjM0+pLDftHgXY4By0uswI3SPKLDw/i3UXbnO8M/p28zqexCUoPmQFrYD+/1BzhGJSs2i1ERWKJAtiLrug==
+xml2js@^0.6.2:
+  version "0.6.2"
+  resolved "https://registry.yarnpkg.com/xml2js/-/xml2js-0.6.2.tgz#dd0b630083aa09c161e25a4d0901e2b2a929b499"
+  integrity sha512-T4rieHaC1EXcES0Kxxj4JWgaUQHDk+qwHcYOCFHfiwKz7tOVPLq7Hjq9dM1WCMhylqMEfP7hMcOIChvotiZegA==
   dependencies:
     sax ">=0.6.0"
     xmlbuilder "~11.0.0"

@@ -49,7 +49,7 @@ export default class Darkness extends Layer {
                 dVec = dVec.clampLength(Math.min(0.5, dVec.length()))
                 pos.x = cx + dVec.x
                 pos.y = cy + dVec.y
-                const pos2 = scene.raycastTileCollision(player.pos, pos, undefined, [TILE_TYPES.LADDER])
+                const pos2 = scene.raycastTileCollision(player.pos, pos, undefined)
                 // if collision and the collision is not this tile
                 if (pos2 && !(pos2.x === cx && pos2.y === cy)) {
                     this.g_shadows[x + '_' + y] = this.g_shadows[x + '_' + y] || {

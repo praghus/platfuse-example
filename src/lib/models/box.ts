@@ -1,4 +1,5 @@
 import { Color, Entity } from 'platfuse'
+import { ENTITY_TYPES, TILE_TYPES } from '../constants'
 
 export default class Box extends Entity {
     elasticity = 0.3
@@ -8,14 +9,14 @@ export default class Box extends Entity {
 
     collideWithObject(entity: Entity) {
         switch (entity.type) {
-            case 'coin':
+            case ENTITY_TYPES.COIN:
                 return false
         }
         return true
     }
 
     collideWithTile(tileId: number) {
-        if (tileId === 30) {
+        if (tileId === TILE_TYPES.LADDER) {
             return false
         }
         return tileId > 0

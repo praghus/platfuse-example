@@ -12,16 +12,4 @@ export default class Dust extends Entity {
     solid = false
     mass = 0
     ttl = 0.5
-
-    // constructor(scene: Scene, obj: Record<string, any>) {
-    //     super(scene, obj)
-    //     console.info('Dust created', obj)
-    //     // this.direction = obj.direction
-    // }
-
-    // update() {
-    //     this.animate(ANIMATIONS.DUST, { H: this.direction === DIRECTIONS.LEFT }, (frame: number) => {
-    //         if (frame === 8) this.kill()
-    //     })
-    // }
 }

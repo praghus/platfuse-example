@@ -1,16 +1,17 @@
-import { Layer, Vector, vec2 } from 'platfuse'
-import { ENTITY_TYPES, LAYERS, TILE_TYPES } from '../constants'
+import { Color, Layer, Vector, vec2 } from 'platfuse'
+import { ENTITY_TYPES, LAYERS } from '../constants'
 import { Player } from '../models'
 
 export default class Darkness extends Layer {
     id = LAYERS.DARKNESS
     name = 'Darkness'
+    backgroundColor = new Color('#140C1C').setAlpha(0.8).toString()
     g_shadows: Record<string, { x: number; y: number; alpha: number }> = {}
 
     drawRect(pos: Vector, size: Vector) {
-        const { ctx, backgroundColor } = this.scene.game
-        ctx.fillStyle = backgroundColor.setAlpha(0.8).toString()
-        ctx.fillRect(Math.round(pos.x), Math.round(pos.y), Math.round(size.x), Math.round(size.y))
+        const { ctx } = this.scene.game
+        ctx.fillStyle = this.backgroundColor
+        ctx.fillRect(pos.x, pos.y, size.x, size.y)
         // draw.text(`${alpha.toFixed(2)}`, Math.round(pos.x), Math.round(pos.y))
     }
 
@@ -34,7 +35,7 @@ export default class Darkness extends Layer {
                 pos.x = dVec.x
                 pos.y = dVec.y
 
-                const pos2 = scene.raycastTileCollision(player.pos, pos, undefined, [TILE_TYPES.LADDER])
+                const pos2 = scene.raycastTileCollision(player.pos, pos, player)
                 if (pos2 && !(pos2.x === c.x && pos2.y === c.y)) {
                     this.g_shadows[x + '_' + y] = this.g_shadows[x + '_' + y] || {
                         x: c.x,
