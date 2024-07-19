@@ -9,6 +9,7 @@ import './style.css'
 
 const game = new Game(
     {
+        pixelPerfect: true,
         fixedSize: vec2(1280, 720),
         backgroundColor: '#140C1C',
         entities: {

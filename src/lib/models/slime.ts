@@ -53,6 +53,6 @@ export default class Slime extends Entity {
             size
         } = rect
         draw.outline(rect, DefaultColors.Cyan, 1)
-        draw.text(`Slime ${this.running ? 'running' : 'idle'}`, x, y)
+        draw.text(`Slime ${this.running ? 'running' : 'idle'}`, vec2(x, y))
     }
 }

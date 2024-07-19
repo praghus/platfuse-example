@@ -1,4 +1,4 @@
-import { clamp, Entity, vec2, Timer, Scene, Emitter, Vector } from 'platfuse'
+import { clamp, Entity, vec2, Timer, Scene, Emitter } from 'platfuse'
 import { DIRECTIONS, DEFAULT_PARTICLE_SETTINGS, TILE_TYPES, ENTITY_TYPES } from '../constants'
 import ANIMATIONS from '../animations/player'
 import Dust from './dust'
@@ -87,7 +87,7 @@ export default class Player extends Entity {
         return tileId > 0
     }
 
-    collideWithTileRaycast(tileId: number, pos: Vector): boolean {
+    collideWithTileRaycast(tileId: number) {
         if (tileId === TILE_TYPES.LADDER) {
             return false
         }
@@ -98,14 +98,14 @@ export default class Player extends Entity {
         const { game } = this.scene
         const { input } = game
 
-        this.holdingJump = !!input.keyIsDown('ArrowUp')
+        this.holdingJump = !!(input.keyIsDown('ArrowUp') || input.keyIsDown('KeyW'))
         this.moveInput = vec2(
-            input.keyIsDown('ArrowRight') - input.keyIsDown('ArrowLeft'),
-            input.keyIsDown('ArrowUp') - input.keyIsDown('ArrowDown')
+            (input.keyIsDown('ArrowRight') || input.keyIsDown('KeyD')) -
+                (input.keyIsDown('ArrowLeft') || input.keyIsDown('KeyA')),
+            (input.keyIsDown('ArrowUp') || input.keyIsDown('KeyW')) -
+                (input.keyIsDown('ArrowDown') | input.keyIsDown('KeyS'))
         )
-        // if (input.keyIsDown('Space')) {
-        //     camera.shake(0.5, vec2(0.02))
-        // }
+
         if (input.mouseWasPressed(0)) {
             console.info('Mouse pressed', this.scene.getPointerRelativeGridPos())
             const emitter = new Emitter(this.scene, {
@@ -230,7 +230,7 @@ export default class Player extends Entity {
     }
 
     dust(side: (typeof DIRECTIONS)[keyof typeof DIRECTIONS] = this.facing) {
-        const pos = side === LEFT ? vec2(-1.2, 0.15) : vec2(0.85, 0.15)
+        const pos = side === LEFT ? vec2(-1, 0.4) : vec2(1, 0.4)
         const dust = new Dust(this.scene, { pos: this.pos.add(pos), flipH: side === RIGHT })
         this.scene.addObject(dust, 5)
     }

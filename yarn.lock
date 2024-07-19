@@ -1225,10 +1225,10 @@ picomatch@^2.3.1:
   resolved "https://registry.yarnpkg.com/picomatch/-/picomatch-2.3.1.tgz#3ba3833733646d9d3e4995946c1365a67fb07a42"
   integrity sha512-JU3teHTNjmE2VCGFzuY8EXzCDVwEqB2a8fsIvwaStHhAWJEeVd1o1QD80CU6+ZdEXXSLbSsuLwJjkCBWqRQUVA==
 
-platfuse@^1.4.2:
-  version "1.4.2"
-  resolved "https://registry.yarnpkg.com/platfuse/-/platfuse-1.4.2.tgz#8ffc51f23146571aa5e79631eab848dd620171c4"
-  integrity sha512-uvZmQMriNIphod3EKLBac8jzmkD8z/O1Puy8/KyUBFSfdGXFCkJFT2eXYOut6yAyA1XeR26Tn4K/Iof6xiyNTg==
+platfuse@^1.5.0:
+  version "1.5.0"
+  resolved "https://registry.yarnpkg.com/platfuse/-/platfuse-1.5.0.tgz#250f8909d1bbd01987f3f781794e84c18118ca0d"
+  integrity sha512-hkuCRj3+bk6W7GEdUmbkh0TC50WViaiNA48vtdM7wLqIbA2O5sYDjUoCIFz3PLrc8XsFX9QFsdRerBKLshhMgw==
   dependencies:
     howler "^2.2.4"
     ora "^8.0.1"

@@ -70,7 +70,7 @@
   </data>
  </layer>
  <objectgroup id="5" name="Objects">
-  <object id="63" name="Player" type="player" x="144" y="80" width="14" height="28"/>
+  <object id="63" name="Player" type="player" x="144" y="80" width="14" height="26"/>
   <object id="3" name="Spikes" type="spikes" x="336" y="616" width="32" height="8"/>
   <object id="4" name="Slime" type="slime" x="224" y="224" width="160" height="16">
    <properties>
@@ -143,7 +143,7 @@
   <object id="99" type="box" gid="61" x="112" y="528" width="15" height="15"/>
   <object id="100" type="box" gid="61" x="112" y="512" width="15" height="15"/>
   <object id="101" type="box" x="64" y="80" width="32" height="32"/>
-  <object id="106" gid="61" x="172" y="108" width="16" height="16" rotation="27"/>
+  <object id="106" gid="61" x="176" y="112" width="16" height="16" rotation="359.757"/>
   <object id="111" gid="152" x="448" y="192" width="16" height="16" rotation="345.224"/>
  </objectgroup>
  <layer id="8" name="Foreground" width="80" height="40">

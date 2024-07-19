@@ -6,7 +6,7 @@ export default class Dust extends Entity {
     image = 'dust.png'
     type = ENTITY_TYPES.DUST
     animation = ANIMATION.DUST
-    size = vec2(0.5, 0.5)
+    size = vec2(1)
     collideObjects = false
     collideTiles = false
     solid = false
