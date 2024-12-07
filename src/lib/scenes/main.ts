@@ -1,7 +1,6 @@
 import { GUI } from 'dat.gui'
 
 import { Scene } from 'platfuse'
-import tiledMap from '../../assets/map/tiledmap.tmx'
 import Player from '../models/player'
 import Darkness from '../layers/darkness'
 
@@ -9,15 +8,14 @@ export default class MainScene extends Scene {
     gui?: GUI
     debug = false
     gravity = 0.05
-    tmxMap = tiledMap
+    tmxMap = 'tiledmap.tmx'
 
     init() {
         const { game } = this
 
-        this.setScale(4)
+        this.setScale(6)
         this.addLayer(Darkness, 1)
         this.setTileCollisionLayer(2)
-        // game.setSettings({ shadows: 1 })
 
         console.log('Main Scene initialized', this)
 
@@ -29,14 +27,14 @@ export default class MainScene extends Scene {
         const f3 = f1.addFolder('Player')
 
         this.gui.add(game, 'debug').listen()
+        // this.gui.add(game, 'avgFPS').listen()
         f1.add(this, 'gravity').step(0.01).min(0.01).max(1)
         f1.add(this.camera, 'scale').step(0.1).min(1).max(10).listen()
         f1.add(this.camera, 'scrolling').name('camera scroll').listen()
         this.layers
             .sort((a, b) => a.renderOrder - b.renderOrder)
             .map(layer => f2.add(layer, 'visible').name(layer.name || `Layer#${layer.id}`))
-        f3.add(player.pos, 'x').listen()
-        f3.add(player.pos, 'y').listen()
+
         f3.add(player, 'gravityScale').listen()
         f3.add(player, 'image', {
             'Owlet monster': 'monster1.png',

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="112">
+<map version="1.10" tiledversion="1.11.0" orientation="orthogonal" renderorder="right-down" width="80" height="40" tilewidth="16" tileheight="16" infinite="0" nextlayerid="9" nextobjectid="127">
  <tileset firstgid="1" name="Tileset" tilewidth="16" tileheight="16" tilecount="256" columns="16">
   <image source="../images/tileset.png" width="256" height="256"/>
   <tile id="29" type="ladder"/>
@@ -33,30 +33,9 @@
    </animation>
   </tile>
  </tileset>
- <tileset firstgid="268" name="water" tilewidth="16" tileheight="16" tilecount="28" columns="7">
-  <image source="../images/water.png" width="112" height="64"/>
-  <tile id="0">
-   <animation>
-    <frame tileid="0" duration="100"/>
-    <frame tileid="1" duration="100"/>
-    <frame tileid="2" duration="100"/>
-    <frame tileid="3" duration="100"/>
-    <frame tileid="4" duration="100"/>
-    <frame tileid="5" duration="100"/>
-    <frame tileid="6" duration="100"/>
-    <frame tileid="7" duration="100"/>
-    <frame tileid="8" duration="100"/>
-    <frame tileid="9" duration="100"/>
-    <frame tileid="10" duration="100"/>
-    <frame tileid="11" duration="100"/>
-    <frame tileid="12" duration="100"/>
-    <frame tileid="13" duration="100"/>
-   </animation>
-  </tile>
- </tileset>
  <layer id="1" name="Background" width="80" height="40" opacity="255">
   <data encoding="base64" compression="zlib">
-   eJzt2U0KwjAQBeC5jdl5BY/gETyCS71BXLivv2c1goGQJiFJ087EPuFj/Ak4PJ60oCIiJQwxfF/tgzsrKLP/Uc70n7uuAnbOtZnh7JDI0M2y9+xy8xkyzuTwM/RzvHSc5ZRcajJUNM7vZJwD8ywgHwnc3GL905HJvbsUqd9vqHt2cu8tgZ8b+leXXez6u/b+5VyDUvcuvfZvW/j+XHrsX252/uvQPXLK9/zNuBsP42m8jLdzptf+Tcm5pR77t1Q2lqZxv+xn/9y/VkL9sp/12r8laUr3LDa59+YW61Xu5N5fgpre2cm9ewstrjPoX5ucNa2vfwAt7Qpw7ypR6P+IGO5dJToUOArYFwAAAAAAAAAA1uEDlAo5OQ==
+   eJzt2UEKwjAQBdC5jdl5BY/gETyCS3uDuHDfhfWsdmEgpEmYpGlnYn/hMWoLDp8vLWiIyChDAt9Xe0hnBWWuP8ab4WvfS8HOXKcNrh0zGfpZ9p4dN5+RcQ1HmGGY47PjLNfkUpOhoWV+j9kQmYOCfDTwc0v1zyam9O5a5H6/se65Kb23BmFu6F9ddqn779H7x7kH5Z5deu3fufDzrfTYP2524fvYM3JOeLxn0+zjXdNr/9bk3FKP/dsrG8fSsl/u3D/3r5VYv9y5Xvu3J0v5nqWm9N7SUr3iTun9NajpnZvSu7fQ4j6D/rXJ2dLx+gfQ0qWA9K4axf6PSJHeVaNbgbuCfQEAAAAAAAAA4Bi+wd020w==
   </data>
  </layer>
  <layer id="4" name="Shadows" width="80" height="40">
@@ -142,13 +121,22 @@
   <object id="98" type="box" gid="61" x="128" y="560" width="15" height="15"/>
   <object id="99" type="box" gid="61" x="112" y="528" width="15" height="15"/>
   <object id="100" type="box" gid="61" x="112" y="512" width="15" height="15"/>
-  <object id="101" type="box" x="64" y="80" width="32" height="32"/>
-  <object id="106" gid="61" x="176" y="112" width="16" height="16" rotation="359.757"/>
+  <object id="101" type="box" x="80" y="64" width="32" height="32" rotation="55.6923"/>
   <object id="111" gid="152" x="448" y="192" width="16" height="16" rotation="345.224"/>
+  <object id="116" x="181.39" y="51.1575" rotation="62.3147">
+   <polygon points="0,0 16,-16 16,-32 0,-48 0,-64 16,-64 32,-48 48,-48 64,-64 80,-64 80,-48 64,-32 64,-16 80,0 80,16 64,16 48,0 32,0 16,16 0,16 0,0"/>
+  </object>
+  <object id="117" gid="69" x="96" y="96" width="16" height="16" rotation="44.1238"/>
+  <object id="121" x="104.112" y="44.6868" width="16" height="16" rotation="45.5663"/>
+  <object id="122" x="126.748" y="51.2709" width="32" height="16" rotation="348.764"/>
+  <object id="123" x="126.748" y="51.2709" width="32" height="16" rotation="348.764"/>
+  <object id="126" x="472" y="110">
+   <polygon points="8,2 6,-22 -3,-31 -4,-47 -18,-53 -30,-64 -47,-67 -68,-65 -83,-55 -103,-43 -113,-25 -131,-19 -141,-9 -185,0 -225,18 -72,18 -72,2"/>
+  </object>
  </objectgroup>
  <layer id="8" name="Foreground" width="80" height="40">
   <data encoding="base64" compression="zlib">
-   eJzt0zENADAMA8HgyVj+4LoUQy0ld9LvXlwFAAAAwFQnPSCgX5Cw8XMAAAAAAADAHxc4ygC5
+   eJzt2aEJADAQA8Cf52X3H66mAxQqAt87iI+JShUAAAAAU610gYA+gYQfNwcAAAAAAMAbHye3Nu6SAQ0=
   </data>
  </layer>
 </map>

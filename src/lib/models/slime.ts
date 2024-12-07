@@ -1,4 +1,4 @@
-import { clamp, Entity, Scene, vec2, DefaultColors } from 'platfuse'
+import { Entity, Scene, vec2, DefaultColors } from 'platfuse'
 
 import ANIMATIONS from '../animations/slime'
 import { DIRECTIONS } from '../../lib/constants'
@@ -7,6 +7,10 @@ export default class Slime extends Entity {
     image = 'slime.png'
     animation = ANIMATIONS.BOUNCE
     direction = DIRECTIONS.LEFT
+    collideObjects = true
+    collideTiles = true
+    mass = 1
+    solid = true
     distance = 0
     damage = 20
     running = false
@@ -44,15 +48,21 @@ export default class Slime extends Entity {
         super.update()
     }
 
-    displayDebug(): void {
-        // super.displayDebug()
-        const { draw } = this.scene.game
-        const rect = this.getTranslatedBoundingRect().move(this.scene.camera.pos)
-        const {
-            pos: { x, y },
-            size
-        } = rect
-        draw.outline(rect, DefaultColors.Cyan, 1)
-        draw.text(`Slime ${this.running ? 'running' : 'idle'}`, vec2(x, y))
-    }
+    // displayDebug(): void {
+    //     // super.displayDebug()
+    //     const { draw } = this.scene.game
+    //     const rect = this.getTranslatedBoundingRect().move(this.scene.camera.pos)
+    //     const {
+    //         pos: { x, y }
+    //     } = rect
+    //     draw.outline(rect, DefaultColors.Plum, 1)
+    //     draw.text(
+    //         `Slime ${this.running ? 'running' : 'idle'}`,
+    //         vec2(x, y),
+    //         DefaultColors.White,
+    //         '1em',
+    //         'left',
+    //         'bottom'
+    //     )
+    // }
 }

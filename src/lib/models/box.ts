@@ -2,6 +2,10 @@ import { Color, Entity } from 'platfuse'
 import { ENTITY_TYPES, TILE_TYPES } from '../constants'
 
 export default class Box extends Entity {
+    collideObjects = true
+    collideTiles = true
+    mass = 1
+    solid = true
     elasticity = 0.3
     friction = 0.9
     angleDamping = 0.96

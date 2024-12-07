@@ -24,7 +24,7 @@ export default class Darkness extends Layer {
 
         const pos = vec2(0)
         const shadowSize = tileSize.scale(scale)
-        const playerPos = player.getTranslatedBoundingRect().pos
+        const playerPos = player.getScreenBoundingRect().pos
 
         // @todo: reduce only to visible part of the screen
         for (let x = 0; x < scene.size.x; x++) {

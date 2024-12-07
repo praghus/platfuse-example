@@ -8,6 +8,7 @@
         "start": "vite",
         "build": "tsc && vite build",
         "preview": "vite preview",
+        "dist:publish": "npm run build && gh-pages -m \"[ci skip] Updates\" -d dist",
         "v": "node -v"
     },
     "type": "module",
@@ -20,6 +21,7 @@
         "eslint": "^8.44.0",
         "eslint-config-prettier": "^8.8.0",
         "eslint-plugin-prettier": "^4.2.1",
+        "gh-pages": "^6.1.1",
         "prettier": "^3.0.0",
         "rollup-plugin-node-polyfills": "^0.2.1",
         "stream-browserify": "^3.0.0",

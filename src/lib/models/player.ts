@@ -11,6 +11,10 @@ export default class Player extends Entity {
     facing = RIGHT
     energy = [100, 100]
     renderOrder = 10
+    collideObjects = true
+    collideTiles = true
+    mass = 1
+    solid = true
     damping = 0.88
     friction = 0.9
     maxSpeed = 0.5
@@ -48,7 +52,6 @@ export default class Player extends Entity {
 
     setImage(image: string) {
         this.image = image
-        this.createSprite()
     }
 
     collideWithObject(entity: Entity) {
